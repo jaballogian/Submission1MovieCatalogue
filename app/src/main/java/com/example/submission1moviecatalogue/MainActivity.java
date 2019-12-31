@@ -2,8 +2,11 @@ package com.example.submission1moviecatalogue;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -27,6 +30,23 @@ public class MainActivity extends AppCompatActivity {
 
         initializeListView();
         addItemToListView();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Movie movie = new Movie();
+                movie.setTitle(movieTitle[position]);
+                movie.setReleaseDate(movieDate[position]);
+                movie.setRating(movieRating[position]);
+                movie.setDescription(movieDescription[position]);
+                movie.setCover(movieCover.getResourceId(position, -1));
+
+                Intent moveWithObjectIntent = new Intent(MainActivity.this, DetailActivity.class);
+                moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+                startActivity(moveWithObjectIntent);
+            }
+        });
     }
 
     private void initializeListView(){
