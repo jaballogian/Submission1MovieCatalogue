@@ -1,6 +1,7 @@
 package com.example.submission1moviecatalogue;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -9,12 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter movieAdapter;
-    private ListView listView;
+//    private ListView listView;
     private String[] movieTitle, movieDescription, movieRating, movieDate;
     private TypedArray movieCover;
     private ArrayList<Movie> movies;
@@ -24,29 +27,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.movieListView);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabLayout);
+        tabs.setupWithViewPager(viewPager);
+
+        getSupportActionBar().setElevation(0);
+
+//        listView = findViewById(R.id.movieListView);
         movieAdapter = new MovieAdapter(this);
-        listView.setAdapter(movieAdapter);
+//        listView.setAdapter(movieAdapter);
 
-        initializeListView();
-        addItemToListView();
+//        initializeListView();
+//        addItemToListView();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Movie movie = new Movie();
-                movie.setTitle(movieTitle[position]);
-                movie.setReleaseDate(movieDate[position]);
-                movie.setRating(movieRating[position]);
-                movie.setDescription(movieDescription[position]);
-                movie.setCover(movieCover.getResourceId(position, -1));
-
-                Intent moveWithObjectIntent = new Intent(MainActivity.this, DetailActivity.class);
-                moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
-                startActivity(moveWithObjectIntent);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Movie movie = new Movie();
+//                movie.setTitle(movieTitle[position]);
+//                movie.setReleaseDate(movieDate[position]);
+//                movie.setRating(movieRating[position]);
+//                movie.setDescription(movieDescription[position]);
+//                movie.setCover(movieCover.getResourceId(position, -1));
+//
+//                Intent moveWithObjectIntent = new Intent(MainActivity.this, DetailActivity.class);
+//                moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+//                startActivity(moveWithObjectIntent);
+//            }
+//        });
     }
 
     private void initializeListView(){
