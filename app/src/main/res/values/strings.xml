@@ -2,6 +2,7 @@
     <string name="app_name">Submission1MovieCatalogue</string>
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="change_language_settings">Change language</string>
 
     <string-array name="movieTitle">
         <item>Avengers: Infinity Wars</item>
@@ -132,7 +133,5 @@
         <item>@drawable/lost_in_space</item>
         <item>@drawable/the_rookie</item>
     </array>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

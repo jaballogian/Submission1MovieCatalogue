@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Submission1MovieCatalogue</string>
+    <string name="movies">Film</string>
+    <string name="tv_shows">Pertunjukan TV</string>
+    <string name="change_language_settings">Ubah bahasa</string>
+
+    <string-array name="movieTitle">
+        <item>Avengers: Infinity Wars</item>
+        <item>Deadpool 2</item>
+        <item>Solo: A Star Wars Story</item>
+        <item>Spider-Man: Into the Spider Verse</item>
+        <item>Black Panther</item>
+        <item>Freaks</item>
+        <item>Aquaman</item>
+        <item>Bird Box</item>
+        <item>Incredibles 2</item>
+        <item>Venom</item>
+    </string-array>
+
+    <string-array name="tvTitle">
+        <item>Legacies</item>
+        <item>The Resident</item>
+        <item>Titans</item>
+        <item>YOU</item>
+        <item>Manifest</item>
+        <item>9-1-1</item>
+        <item>Burden of Truth</item>
+        <item>FBI</item>
+        <item>Lost in Space</item>
+        <item>The Rookie</item>
+    </string-array>
+
+    <string-array name="movieRating">
+        <item>nilai 85%</item>
+        <item>nilai 75%</item>
+        <item>nilai 66%</item>
+        <item>nilai 84%</item>
+        <item>nilai 74%</item>
+        <item>nilai 68%</item>
+        <item>nilai 68%</item>
+        <item>nilai 69%</item>
+        <item>nilai 75%</item>
+        <item>nilai 66%</item>
+    </string-array>
+
+    <string-array name="tvRating">
+        <item>nilai 79%</item>
+        <item>nilai 79%</item>
+        <item>nilai 77%</item>
+        <item>nilai 78%</item>
+        <item>nilai 73%</item>
+        <item>nilai 74%</item>
+        <item>nilai 68%</item>
+        <item>nilai 72%</item>
+        <item>nilai 71%</item>
+        <item>nilai 74%</item>
+    </string-array>
+
+    <string-array name="movieDate">
+        <item>25 April 2018</item>
+        <item>10 May 2018</item>
+        <item>15 May 2018</item>
+        <item>6 December 2018</item>
+        <item>13 February 2018</item>
+        <item>8 September 2018</item>
+        <item>7 December 2018</item>
+        <item>13 December 2018</item>
+        <item>14 June 2018</item>
+        <item>28 September 2018</item>
+    </string-array>
+
+    <string-array name="tvDate">
+        <item>25 October 2018</item>
+        <item>21 January 2018</item>
+        <item>12 October 2018</item>
+        <item>9 September 2018</item>
+        <item>24 September 2018</item>
+        <item>3 January 2018</item>
+        <item>10 January 2018</item>
+        <item>25 September 2018</item>
+        <item>13 April 2018</item>
+        <item>16 October 2018</item>
+    </string-array>
+
+    <string-array name="movieDescription">
+        <item>Ketika Avengers dan sekutu mereka terus melindungi dunia dari ancaman yang terlalu besar untuk ditangani oleh satu pahlawan, bahaya baru telah muncul dari bayang-bayang kosmik: Thanos. Seorang lalim penghinaan intergalaksi, tujuannya adalah untuk mengumpulkan semua enam Batu Infinity, artefak kekuatan tak terbayangkan, dan menggunakannya untuk menimbulkan keinginannya yang terpelintir pada semua kenyataan. Segala yang Avengers telah perjuangkan telah mengarah ke saat ini - nasib Bumi dan keberadaannya sendiri tidak pernah lebih pasti.</item>
+        <item>Deadpool tentara bayaran penyihir bertempur melawan Cable jahat dan kuat dan orang jahat lainnya untuk menyelamatkan hidup anak laki-laki.</item>
+        <item>Melalui serangkaian petualangan berani jauh di dalam dunia kriminal yang gelap dan berbahaya, Han Solo bertemu dengan kopilot Chewbacca masa depannya yang perkasa dan bertemu dengan penjudi terkenal Lando Calrissian.</item>
+        <item>Miles Morales menyulap hidupnya antara menjadi siswa sekolah menengah dan menjadi manusia laba-laba. Ketika Wilson "Kingpin" Fisk menggunakan collider super, yang lain dari seberang Spider-Verse diangkut ke dimensi ini.</item>
+        <item>Raja T Challa pulang dari Amerika ke negara Wakanda yang tertutup dan berteknologi maju untuk melayani sebagai pemimpin baru negaranya. Namun, Challa segera menemukan bahwa ia ditantang untuk naik takhta oleh faksi di negaranya sendiri maupun di luar. Menggunakan kekuatan yang disediakan untuk raja-raja Wakandan, Challa mengasumsikan mantel Black Panther untuk bergabung dengan pacar Nakia, ibu-ratu, saudara perempuan-anak kandungnya, anggota Dora Milaje (pasukan khusus pasukan Wakandan) dan Agen rahasia Amerika, untuk mencegah Wakanda diseret ke dalam perang dunia.</item>
+        <item>Tetap terkunci di dalam rumah oleh ayahnya, Chloe yang berusia 7 tahun hidup dalam ketakutan dan daya tarik dunia luar, tempat Abnormal menciptakan ancaman terus-menerus - atau begitulah yang ia yakini. Ketika seorang asing yang misterius menawarkan kepadanya sekilas tentang apa yang sebenarnya terjadi di luar, Chloe segera menemukan bahwa meskipun kebenarannya tidak sesederhana itu, bahayanya sangat nyata.</item>
+        <item>Dulunya merupakan rumah bagi peradaban paling maju di Bumi, Atlantis sekarang merupakan kerajaan bawah laut yang diperintah oleh Raja Orm yang haus kekuasaan. Dengan pasukan yang sangat besar, Orm berencana untuk menaklukkan orang-orang samudera yang tersisa dan kemudian ke permukaan dunia. Yang menghalangi jalannya adalah Arthur Curry, saudara setengah manusia, setengah saudara lelaki Atlantis dan pewaris sejati takhta.</item>
+        <item>Lima tahun setelah kehadiran tak terlihat yang tidak menyenangkan membuat sebagian besar masyarakat bunuh diri, seorang yang selamat dan dua anaknya melakukan upaya putus asa untuk mencapai keselamatan.</item>
+        <item>Elastigirl bertindak untuk menyelamatkan hari itu, sementara Tuan Incredible menghadapi tantangan terbesarnya - mengurus masalah ketiga anaknya.</item>
+        <item>Jurnalis investigasi Eddie Brock mencoba untuk kembali setelah skandal, tetapi secara tidak sengaja menjadi tuan rumah Venom, seorang simbiot alien yang sangat kuat dan sakti. Segera, ia harus mengandalkan kekuatan barunya untuk melindungi dunia dari organisasi bayangan yang mencari simbiosis mereka sendiri.</item>
+    </string-array>
+
+    <string-array name="tvDescription">
+        <item>Di tempat di mana para penyihir muda, vampir, dan manusia serigala dibesarkan untuk menjadi diri terbaik mereka terlepas dari impuls terburuk mereka, anak perempuan Klaus Mikaelson, Hope Mikaelson yang berusia 17 tahun, kembar Alaric Saltzman, Lizzie dan Josie Saltzman, di antaranya yang lain, menjadi pahlawan dan penjahat di The Salvatore School for the Young and Gifted.</item>
+        <item>Seorang residen senior yang tangguh dan cemerlang memandu seorang dokter muda yang idealis melewati hari pertamanya, menarik kembali tirai tentang apa yang sebenarnya terjadi, baik dan buruk, dalam kedokteran modern.</item>
+        <item>Sebuah tim pahlawan super muda yang dipimpin oleh Nightwing (sebelumnya Robin pertama Robin) terbentuk untuk memerangi kejahatan dan bahaya lainnya.</item>
+        <item>Ketika seorang manajer toko buku yang brilian melintasi jalan dengan seorang penulis yang bercita-cita tinggi, ia menggunakan internet dan media sosial untuk mengumpulkan detail paling intim dan mendekatinya. Naksir yang menawan dan canggung dengan cepat menjadi obsesi saat ia diam-diam dan strategis menghilangkan setiap rintangan - dan orang - di jalannya.</item>
+        <item>Setelah mendarat dari penerbangan yang bergolak tetapi rutin, para kru dan penumpang Montego Air Penerbangan 828 menemukan lima tahun telah berlalu dalam apa yang tampak seperti beberapa jam. Ketika realitas baru mereka menjadi jelas, sebuah misteri yang lebih dalam terungkap dan beberapa penumpang yang kembali segera menyadari bahwa mereka mungkin dimaksudkan untuk sesuatu yang lebih besar daripada yang pernah mereka bayangkan.</item>
+        <item>Jelajahi pengalaman tekanan tinggi dari petugas polisi, paramedis, dan petugas pemadam kebakaran yang didorong ke dalam situasi yang paling menakutkan, mengejutkan, dan mengejutkan. Para responden darurat ini harus berusaha menyeimbangkan menyelamatkan mereka yang paling rentan dengan penyelesaian masalah dalam kehidupan mereka sendiri.</item>
+        <item>Seorang pengacara kota besar kembali ke kota asalnya untuk mengambil kasus sekelompok gadis yang menderita penyakit misterius.</item>
+        <item>Unit elit kantor FBI New York membawa semua bakat, kecerdasan, dan keahlian teknis mereka pada kasus-kasus besar untuk menjaga agar New York dan negara aman.</item>
+        <item>Setelah crash-landing di sebuah planet asing, keluarga Robinson berjuang melawan semua peluang untuk bertahan hidup dan melarikan diri. Tapi mereka dikelilingi oleh bahaya tersembunyi.</item>
+        <item>Memulai dari awal bukanlah hal yang mudah, terutama bagi pria kota kecil John Nolan yang, setelah insiden yang mengubah hidup, mengejar mimpinya menjadi seorang perwira LAPD. Sebagai rookie tertua pasukan, ia bertemu dengan skeptis dari beberapa atasan yang melihatnya hanya sebagai krisis paruh baya berjalan.</item>
+    </string-array>
+
+    <array name="movieCover">
+        <item>@drawable/avengers_infinity_wars</item>
+        <item>@drawable/deadpool_2</item>
+        <item>@drawable/solo_a_star_wars_story</item>
+        <item>@drawable/spider_man_into_the_spider_verse</item>
+        <item>@drawable/black_panther</item>
+        <item>@drawable/freaks</item>
+        <item>@drawable/aquaman</item>
+        <item>@drawable/bird_box</item>
+        <item>@drawable/incredibles_2</item>
+        <item>@drawable/venom</item>
+    </array>
+
+    <array name="tvCover">
+        <item>@drawable/legacies</item>
+        <item>@drawable/the_resident</item>
+        <item>@drawable/titans</item>
+        <item>@drawable/you</item>
+        <item>@drawable/manifest</item>
+        <item>@drawable/nine_one_one</item>
+        <item>@drawable/burden_of_truth</item>
+        <item>@drawable/fbi</item>
+        <item>@drawable/lost_in_space</item>
+        <item>@drawable/the_rookie</item>
+    </array>
+</resources>
