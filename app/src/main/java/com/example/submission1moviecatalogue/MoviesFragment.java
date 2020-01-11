@@ -2,6 +2,7 @@
 package com.example.submission1moviecatalogue;
 
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
@@ -68,6 +69,19 @@ public class MoviesFragment extends Fragment {
         movieRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
         movieRecyclerView.setAdapter(movieRecyclerViewAdapter);
+
+        movieRecyclerViewAdapter.setOnItemClickCallback(new MovieRecyclerViewAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Movie movie) {
+                showSelectedMovie(movie);
+            }
+        });
     }
 
+    private void showSelectedMovie(Movie movie) {
+
+            Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
+            moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+            startActivity(moveWithObjectIntent);
+    }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,15 @@ import java.util.ArrayList;
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ListViewHolder> {
 
     private ArrayList<Movie> movieList;
+    private OnItemClickCallback onItemClickCallback;
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(Movie movie);
+    }
 
     public MovieRecyclerViewAdapter(ArrayList<Movie> list) {
         this.movieList = list;
@@ -30,7 +40,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieRecyclerViewAdapter.ListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MovieRecyclerViewAdapter.ListViewHolder holder, int position) {
         Movie movie= movieList.get(position);
 //        Glide.with(holder.itemView.getContext())
 //                .load(movie.getCover())
@@ -41,6 +51,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         holder.movieDateTextView.setText(movie.getReleaseDate());
         holder.movieRatingTextView.setText(movie.getRating());
         holder.movieDescriptionTextView.setText(movie.getDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(movieList.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
