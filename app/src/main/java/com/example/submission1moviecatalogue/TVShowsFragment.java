@@ -58,7 +58,7 @@ public class TVShowsFragment extends Fragment {
             movie.setDescription(description[i]);
             movie.setReleaseDate(releaseDate[i]);
             movie.setRating(rating[i]);
-            movie.setCover(cover.getResourceId(i, -1));
+//            movie.setCover(cover.getResourceId(i, -1));
             movieArrayList.add(movie);
         }
         return movieArrayList;

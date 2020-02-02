@@ -74,17 +74,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void addItemToListView() {
 
-        movies = new ArrayList<>();
-        for (int i = 0; i < movieTitle.length; i++) {
-            Movie movie = new Movie();
-            movie.setCover(movieCover.getResourceId(i, -1));
-            movie.setTitle(movieTitle[i]);
-            movie.setDescription(movieDescription[i]);
-            movie.setRating(movieRating[i]);
-            movie.setReleaseDate(movieDate[i]);
-            movies.add(movie);
-        }
-        movieAdapter.setMovies(movies);
+//        movies = new ArrayList<>();
+//        for (int i = 0; i < movieTitle.length; i++) {
+//            Movie movie = new Movie();
+//            movie.setCover(movieCover.getResourceId(i, -1));
+//            movie.setTitle(movieTitle[i]);
+//            movie.setDescription(movieDescription[i]);
+//            movie.setRating(movieRating[i]);
+//            movie.setReleaseDate(movieDate[i]);
+//            movies.add(movie);
+//        }
+//        movieAdapter.setMovies(movies);
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
     private String title, description, releaseDate, rating;
-    private int cover;
+    private String cover;
 
     public Movie(){}
 
@@ -42,11 +42,11 @@ public class Movie implements Parcelable {
         this.rating = rating;
     }
 
-    public int getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(int cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 
@@ -61,7 +61,7 @@ public class Movie implements Parcelable {
         dest.writeString(description);
         dest.writeString(releaseDate);
         dest.writeString(rating);
-        dest.writeInt(cover);
+        dest.writeString(cover);
     }
 
     protected Movie(Parcel in) {
@@ -69,7 +69,7 @@ public class Movie implements Parcelable {
         description = in.readString();
         releaseDate = in.readString();
         rating = in.readString();
-        cover = in.readInt();
+        cover = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

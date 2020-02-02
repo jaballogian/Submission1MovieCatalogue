@@ -72,7 +72,7 @@ public class MovieAdapter extends BaseAdapter {
             movieDescription.setText(movie.getDescription());
             movieRating.setText(movie.getRating());
             movieDate.setText(movie.getReleaseDate());
-            movieCover.setImageResource(movie.getCover());
+//            movieCover.setImageResource(movie.getCover());
         }
     }
 }

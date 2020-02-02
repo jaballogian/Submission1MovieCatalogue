@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class DetailActivity extends AppCompatActivity {
 
     private TextView movieTitleTextView, movieDateTextView, movieRatingTextView, movieDescriptionTextView;
@@ -32,6 +34,10 @@ public class DetailActivity extends AppCompatActivity {
         movieRatingTextView.setText(movie.getRating());
         movieDescriptionTextView.setText(movie.getDescription());
         Log.d("movie.getCover", String.valueOf(movie.getCover()));
-        movieCoverImageView.setImageResource(movie.getCover());
+//        movieCoverImageView.setImageResource(movie.getCover());
+        Glide.with(this)
+                .load(movie.getCover())
+//                .apply(new RequestOptions().override(55, 55))
+                .into(movieCoverImageView);
     }
 }

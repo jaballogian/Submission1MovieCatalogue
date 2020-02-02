@@ -7,12 +7,16 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,9 @@ public class MoviesFragment extends Fragment {
 
     private RecyclerView movieRecyclerView;
     private ArrayList<Movie> movies = new ArrayList<>();
+    private ProgressBar progressBar;
+    private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
+    private MainViewModel mainViewModel;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -36,38 +43,41 @@ public class MoviesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_movies, container, false);
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentMovies);
         movieRecyclerView = (RecyclerView) view.findViewById(R.id.moviesRecylerView);
-        movieRecyclerView.setHasFixedSize(true);
+//        movieRecyclerView.setHasFixedSize(true);
+//        movies.addAll(getListHeroes());
 
-        movies.addAll(getListHeroes());
         showRecyclerList();
+
+        mainViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MainViewModel.class);
+
+        mainViewModel.setMovie("movie", "en-US");
+        showLoading(true);
+
+        mainViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
+            @Override
+            public void onChanged(ArrayList<Movie> movies) {
+                Log.d("movies", movies.toString());
+                if (movies != null) {
+                    movieRecyclerViewAdapter.setData(movies);
+                    Log.d("status_fragment_movies", "movies is not null");
+                    showLoading(false);
+                }
+                else {
+
+                    Log.d("status_fragment_movies", "movies is null");
+                }
+            }
+        });
 
         return view;
     }
 
-    public ArrayList<Movie> getListHeroes() {
-
-        String[] title = getResources().getStringArray(R.array.movieTitle);
-        String[] description = getResources().getStringArray(R.array.movieDescription);
-        String[] releaseDate = getResources().getStringArray(R.array.movieDate);
-        String[] rating = getResources().getStringArray(R.array.movieRating);
-        TypedArray cover = getResources().obtainTypedArray(R.array.movieCover);
-        ArrayList<Movie> movieArrayList = new ArrayList<>();
-        for (int i = 0; i < title.length; i++) {
-            Movie movie = new Movie();
-            movie.setTitle(title[i]);
-            movie.setDescription(description[i]);
-            movie.setReleaseDate(releaseDate[i]);
-            movie.setRating(rating[i]);
-            movie.setCover(cover.getResourceId(i, -1));
-            movieArrayList.add(movie);
-        }
-        return movieArrayList;
-    }
-
     private void showRecyclerList(){
         movieRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
+        movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
+        movieRecyclerViewAdapter.notifyDataSetChanged();
         movieRecyclerView.setAdapter(movieRecyclerViewAdapter);
 
         movieRecyclerViewAdapter.setOnItemClickCallback(new MovieRecyclerViewAdapter.OnItemClickCallback() {
@@ -83,5 +93,13 @@ public class MoviesFragment extends Fragment {
             Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
             moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
             startActivity(moveWithObjectIntent);
+    }
+
+    private void showLoading(Boolean state) {
+        if (state) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
