@@ -88,19 +88,25 @@ public class MainViewModel extends ViewModel {
                     JSONObject JO = (JSONObject) resultsArray.get(i);
 
                     Movie movie= new Movie();
-                    movie.setTitle(JO.get("title").toString());
-                    movie.setReleaseDate(JO.get("release_date").toString());
-                    movie.setDescription(JO.get("overview").toString());
-                    movie.setRating(JO.get("vote_average").toString());
-                    String imageURL = "https://image.tmdb.org/t/p/w185" + JO.get("poster_path").toString();
-                    movie.setCover(imageURL);
 
-                    Log.d("title_inViewModel", JO.get("title").toString());
-                    Log.d("date_inViewModel", JO.get("release_date").toString());
-                    Log.d("overview_inViewModel", JO.get("overview").toString());
-                    Log.d("vote_inViewModel", JO.get("vote_average").toString());
-                    Log.d("imageURL_inViewModel", imageURL);
-                    Log.d("movie_inViewModel", movie.toString());
+                    if(type.equals("movie")){
+
+                        movie.setTitle(JO.get("title").toString());
+                        movie.setReleaseDate(JO.get("release_date").toString());
+                        movie.setDescription(JO.get("overview").toString());
+                        movie.setRating(JO.get("vote_average").toString());
+                        String imageURL = "https://image.tmdb.org/t/p/w185" + JO.get("poster_path").toString();
+                        movie.setCover(imageURL);
+                    }
+                    else {
+
+                        movie.setTitle(JO.get("original_name").toString());
+                        movie.setReleaseDate(JO.get("first_air_date").toString());
+                        movie.setDescription(JO.get("overview").toString());
+                        movie.setRating(JO.get("vote_average").toString());
+                        String imageURL = "https://image.tmdb.org/t/p/w185" + JO.get("poster_path").toString();
+                        movie.setCover(imageURL);
+                    }
 
                     movies.add(movie);
                     totalMovies++;
