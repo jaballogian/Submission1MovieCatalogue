@@ -5,7 +5,10 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-    private String title, description, releaseDate, rating;
+    private String title;
+    private String description;
+    private String releaseDate;
+    private String rating;
     private String cover;
 
     public Movie(){}

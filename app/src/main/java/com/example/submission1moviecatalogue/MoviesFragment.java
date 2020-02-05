@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 
@@ -31,6 +33,7 @@ public class MoviesFragment extends Fragment {
     private ProgressBar progressBar;
     private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
     private MainViewModel mainViewModel;
+    private String type = "movie";
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -52,7 +55,7 @@ public class MoviesFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MainViewModel.class);
 
-        mainViewModel.setMovie("movie", "en-US");
+        mainViewModel.setMovie(type, "en-US");
         showLoading(true);
 
         mainViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
@@ -92,6 +95,7 @@ public class MoviesFragment extends Fragment {
 
             Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
             moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+            moveWithObjectIntent.putExtra("type", type);
             startActivity(moveWithObjectIntent);
     }
 

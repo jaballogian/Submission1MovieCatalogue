@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeListView(){
 
-        movieTitle = getResources().getStringArray(R.array.movieTitle);
-        movieDescription= getResources().getStringArray(R.array.movieDescription);
-        movieRating = getResources().getStringArray(R.array.movieRating);
-        movieDate = getResources().getStringArray(R.array.movieDate);
-        movieCover = getResources().obtainTypedArray(R.array.movieCover);
+//        movieTitle = getResources().getStringArray(R.array.movieTitle);
+//        movieDescription= getResources().getStringArray(R.array.movieDescription);
+//        movieRating = getResources().getStringArray(R.array.movieRating);
+//        movieDate = getResources().getStringArray(R.array.movieDate);
+//        movieCover = getResources().obtainTypedArray(R.array.movieCover);
     }
 
     private void addItemToListView() {
@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_change_settings) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(mIntent);
+        }
+        else if(item.getItemId() == R.id.to_favorite_activity){
+            Intent mIntent = new Intent(MainActivity.this, FavoriteActivity.class);
             startActivity(mIntent);
         }
         return super.onOptionsItemSelected(item);
