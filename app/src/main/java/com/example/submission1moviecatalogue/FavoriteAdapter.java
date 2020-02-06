@@ -59,10 +59,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             @Override
             public void onItemClicked(View view, int position) {
                 //TODO: CHANGE THESE LINES
-//                Intent intent = new Intent(activity, NoteAddUpdateActivity.class);
-//                intent.putExtra(NoteAddUpdateActivity.EXTRA_POSITION, position);
-//                intent.putExtra(NoteAddUpdateActivity.EXTRA_NOTE, listFavorite.get(position));
-//                activity.startActivityForResult(intent, NoteAddUpdateActivity.REQUEST_UPDATE);
+                Intent intent = new Intent(activity, FavoriteDetailActivity.class);
+                intent.putExtra(FavoriteDetailActivity.EXTRA_POSITION, position);
+                intent.putExtra(FavoriteDetailActivity.EXTRA_MOVIE, listFavorite.get(position));
+                activity.startActivityForResult(intent, FavoriteDetailActivity.REQUEST_UPDATE);
             }
         }));
     }

@@ -8,4 +8,6 @@
     <string name="my_favorite">My Favorite</string>
     <string name="add_to_favorite">Add to favorite</string>
     <string name="added_to_favorite">Added to favorite</string>
+    <string name="delete_from_favorite">Delete from Favorite</string>
+    <string name="failed_to_delete_data">Failed to delete data</string>
 </resources>

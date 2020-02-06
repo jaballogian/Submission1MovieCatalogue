@@ -10,6 +10,15 @@ public class Movie implements Parcelable {
     private String releaseDate;
     private String rating;
     private String cover;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Movie(){}
 
@@ -60,6 +69,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(releaseDate);
@@ -68,6 +78,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         description = in.readString();
         releaseDate = in.readString();
