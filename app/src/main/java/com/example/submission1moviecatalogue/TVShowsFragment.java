@@ -21,11 +21,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TVShowsFragment extends Fragment {
+public class TVShowsFragment extends Fragment  {
 
     private RecyclerView movieRecyclerView;
     private ArrayList<Movie> movies = new ArrayList<>();
@@ -92,8 +96,9 @@ public class TVShowsFragment extends Fragment {
     private void showSelectedMovie(Movie movie) {
 
         Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
-        moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+        moveWithObjectIntent.putExtra(EXTRA_MOVIE, movie);
         moveWithObjectIntent.putExtra("type", type);
+//        startActivityForResult(moveWithObjectIntent, REQUEST_ADD);
         startActivity(moveWithObjectIntent);
     }
 

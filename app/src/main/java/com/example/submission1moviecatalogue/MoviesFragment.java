@@ -22,6 +22,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,8 +97,9 @@ public class MoviesFragment extends Fragment {
     private void showSelectedMovie(Movie movie) {
 
             Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
-            moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
+            moveWithObjectIntent.putExtra(EXTRA_MOVIE, movie);
             moveWithObjectIntent.putExtra("type", type);
+//            startActivityForResult(moveWithObjectIntent, REQUEST_ADD);
             startActivity(moveWithObjectIntent);
     }
 
