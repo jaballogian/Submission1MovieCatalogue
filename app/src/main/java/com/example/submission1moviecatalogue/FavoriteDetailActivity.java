@@ -62,9 +62,10 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
 
             long result = movieHelper.deleteById(String.valueOf(movie.getId()));
             if (result > 0) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
                 intent.putExtra(EXTRA_POSITION, position);
                 setResult(RESULT_DELETE, intent);
+                startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(this, getString(R.string.failed_to_delete_data), Toast.LENGTH_SHORT).show();

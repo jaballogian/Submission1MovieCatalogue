@@ -1,6 +1,7 @@
 package com.example.submission1moviecatalogue;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,14 @@ import android.widget.ProgressBar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_POSITION;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_UPDATE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_DELETE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_UPDATE;
 
 
 /**
@@ -115,9 +124,43 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
             weakCallback.get().postExecute(movies);
         }
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data != null) {
+//            // Akan dipanggil jika request codenya ADD
+//            if (requestCode == REQUEST_ADD) {
+//                if (resultCode == RESULT_ADD) {
+//                    Movie movie = data.getParcelableExtra(EXTRA_MOVIE);
+//                    favoriteAdapter.addItem(movie);
+//                    recyclerView.smoothScrollToPosition(favoriteAdapter.getItemCount() - 1);
+////                    showSnackbarMessage("Satu item berhasil ditambahkan");
+//                }
+//            }
+//            // Update dan Delete memiliki request code sama akan tetapi result codenya berbeda
+//            else if (requestCode == REQUEST_UPDATE) {
+//                if (resultCode == RESULT_UPDATE) {
+//                    Movie movie = data.getParcelableExtra(EXTRA_MOVIE);
+//                    int position = data.getIntExtra(EXTRA_POSITION, 0);
+//                    favoriteAdapter.updateItem(position, movie);
+//                    recyclerView.smoothScrollToPosition(position);
+////                    showSnackbarMessage("Satu item berhasil diubah");
+//                }
+//                else if (resultCode == RESULT_DELETE) {
+//                    int position = data.getIntExtra(EXTRA_POSITION, 0);
+//                    favoriteAdapter.removeItem(position);
+////                    showSnackbarMessage("Satu item berhasil dihapus");
+//                }
+//            }
+//        }
+//    }
+
 }
 
 interface LoadMoviesCallback {
     void preExecute();
     void postExecute(ArrayList<Movie> movies);
+
+//    void onActivityResult(int requestCode, int resultCode, Intent data);
 }

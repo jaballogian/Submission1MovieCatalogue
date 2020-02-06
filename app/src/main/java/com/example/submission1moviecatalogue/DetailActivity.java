@@ -85,12 +85,11 @@ public class DetailActivity extends AppCompatActivity {
                 if (result > 0) {
                     movie.setId((int) result);
                     setResult(RESULT_ADD, intent);
+                    Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
                     finish();
                 } else {
                     Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
                 }
-
-                Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -3,6 +3,7 @@ package com.example.submission1moviecatalogue;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -22,5 +23,13 @@ public class FavoriteActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         getSupportActionBar().setElevation(0);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(FavoriteActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
