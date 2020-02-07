@@ -58,7 +58,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         holder.favoriteCardView.setOnClickListener(new CustomOnItemClickListener(position, new CustomOnItemClickListener.OnItemClickCallback() {
             @Override
             public void onItemClicked(View view, int position) {
-                //TODO: CHANGE THESE LINES
                 Intent intent = new Intent(activity, FavoriteDetailActivity.class);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_POSITION, position);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_MOVIE, listFavorite.get(position));

@@ -12,4 +12,5 @@
     <string name="delete_from_favorite">Hapus dari Favorite</string>
     <string name="failed_to_delete_data">Gagal untuk menghapus data</string>
     <string name="failed_to_add_data">Gagal menambah data</string>
+    <string name="deleted_from_favorite">Dihapus dari favorite</string>
 </resources>

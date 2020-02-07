@@ -3,6 +3,7 @@ package com.example.submission1moviecatalogue;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

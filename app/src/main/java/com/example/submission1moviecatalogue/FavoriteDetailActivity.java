@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +19,10 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
     private Movie movie;
     private int position;
     private MovieHelper movieHelper;
+    private MovieHelperTV movieHelperTV;
     private ImageView favoriteCoverImageView;
     private TextView favoriteTitleTextView, favoriteDateTextView, favoriteRatingTextView, favoriteDescriptionTextView;
+    private String state = "";
 
     public static final String EXTRA_MOVIE = "extra_movie";
     public static final String EXTRA_POSITION = "extra_position";
@@ -42,6 +45,7 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
         deleteFromFavoriteButton = (Button) findViewById(R.id.deleteFromFavoriteActivityFavoriteDetail);
 
         movieHelper = movieHelper.getInstance(getApplicationContext());
+        movieHelperTV = movieHelperTV.getInstance(getApplicationContext());
         movie = getIntent().getParcelableExtra(EXTRA_MOVIE);
         favoriteTitleTextView.setText(movie.getTitle());
         favoriteDescriptionTextView.setText(movie.getDescription());
@@ -60,15 +64,43 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
 
         if (view.getId() == R.id.deleteFromFavoriteActivityFavoriteDetail) {
 
-            long result = movieHelper.deleteById(String.valueOf(movie.getId()));
-            if (result > 0) {
-                Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
-                intent.putExtra(EXTRA_POSITION, position);
-                setResult(RESULT_DELETE, intent);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(this, getString(R.string.failed_to_delete_data), Toast.LENGTH_SHORT).show();
+            try {
+
+                long result = movieHelper.deleteById(String.valueOf(movie.getId()));
+                if (result > 0) {
+                    Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+                    intent.putExtra(EXTRA_POSITION, position);
+                    setResult(RESULT_DELETE, intent);
+                    Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+                    state = getString(R.string.deleted_from_favorite);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    state = getString(R.string.failed_to_delete_data);
+                }
+            }
+            catch (Exception error){
+
+
+            }
+
+            if (state.equals(getString(R.string.failed_to_delete_data))){
+
+                try {
+
+                    long result = movieHelperTV.deleteById(String.valueOf(movie.getId()));
+                    if (result > 0) {
+                        Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+                        intent.putExtra(EXTRA_POSITION, position);
+                        setResult(RESULT_DELETE, intent);
+                        Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                catch (Exception error){
+
+                }
             }
         }
     }

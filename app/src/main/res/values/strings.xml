@@ -11,4 +11,5 @@
     <string name="delete_from_favorite">Delete from Favorite</string>
     <string name="failed_to_delete_data">Failed to delete data</string>
     <string name="failed_to_add_data">Failed to add data</string>
+    <string name="deleted_from_favorite">Deleted from favorite</string>
 </resources>
