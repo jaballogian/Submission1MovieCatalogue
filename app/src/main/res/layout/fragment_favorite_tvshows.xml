@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavoriteTVShowsFragment">
+    tools:context=".FavoriteTVShowsFragment"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteMoviesRecylerViewFragmentFavoriteTVShows"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

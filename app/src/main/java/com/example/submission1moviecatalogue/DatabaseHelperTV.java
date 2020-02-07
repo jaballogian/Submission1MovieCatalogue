@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelperTV extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "databaseMovieApp";
+    public static String DATABASE_NAME = "databaseTVApp";
     private static final int DATABASE_VERSION = 1;
     private static final String SQL_CREATE_TABLE_MOVIE = String.format("CREATE TABLE %s"
                     + " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -15,16 +15,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     " %s TEXT NOT NULL," +
                     " %s TEXT NOT NULL," +
                     " %s TEXT NOT NULL)",
-            DatabaseContract.TABLE_NAME,
-            DatabaseContract.MovieColumns._ID,
-            DatabaseContract.MovieColumns.TITLE,
-            DatabaseContract.MovieColumns.DESCRIPTION,
-            DatabaseContract.MovieColumns.RELEASE_DATE,
-            DatabaseContract.MovieColumns.RATING,
-            DatabaseContract.MovieColumns.COVER
+            DatabaseContractTV.TABLE_NAME,
+            DatabaseContractTV.TVColumns._ID,
+            DatabaseContractTV.TVColumns.TITLE,
+            DatabaseContractTV.TVColumns.DESCRIPTION,
+            DatabaseContractTV.TVColumns.RELEASE_DATE,
+            DatabaseContractTV.TVColumns.RATING,
+            DatabaseContractTV.TVColumns.COVER
     );
 
-    public DatabaseHelper(Context context) {
+    public DatabaseHelperTV(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseContractTV.TABLE_NAME);
         onCreate(db);
     }
 }

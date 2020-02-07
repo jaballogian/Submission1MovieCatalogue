@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     private Movie movie;
     private int position;
     private MovieHelper movieHelper;
+    private MovieHelperTV movieHelperTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         showLoading(true);
 
         movieHelper = MovieHelper.getInstance(getApplicationContext());
+        movieHelperTV = MovieHelperTV.getInstance(getApplicationContext());
 
         type = getIntent().getStringExtra("type");
 
@@ -70,26 +72,53 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_MOVIE, movie);
-                intent.putExtra(EXTRA_POSITION, position);
+                if(type.equals("movie")){
 
-                ContentValues values = new ContentValues();
-                values.put(DatabaseContract.MovieColumns.TITLE, movie.getTitle());
-                values.put(DatabaseContract.MovieColumns.DESCRIPTION, movie.getDescription());
-                values.put(DatabaseContract.MovieColumns.RELEASE_DATE, movie.getReleaseDate());
-                values.put(DatabaseContract.MovieColumns.RATING, movie.getRating());
-                values.put(DatabaseContract.MovieColumns.COVER, movie.getCover());
+                    Intent intent = new Intent();
+                    intent.putExtra(EXTRA_MOVIE, movie);
+                    intent.putExtra(EXTRA_POSITION, position);
 
-                long result = movieHelper.insert(values);
-                if (result > 0) {
-                    movie.setId((int) result);
-                    setResult(RESULT_ADD, intent);
-                    Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                    finish();
-                } else {
-                    Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
+                    ContentValues values = new ContentValues();
+                    values.put(DatabaseContract.MovieColumns.TITLE, movie.getTitle());
+                    values.put(DatabaseContract.MovieColumns.DESCRIPTION, movie.getDescription());
+                    values.put(DatabaseContract.MovieColumns.RELEASE_DATE, movie.getReleaseDate());
+                    values.put(DatabaseContract.MovieColumns.RATING, movie.getRating());
+                    values.put(DatabaseContract.MovieColumns.COVER, movie.getCover());
+
+                    long result = movieHelper.insert(values);
+                    if (result > 0) {
+                        movie.setId((int) result);
+                        setResult(RESULT_ADD, intent);
+                        Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
+                    }
                 }
+                else if(type.equals("tv")){
+
+                    Intent intent = new Intent();
+                    intent.putExtra(EXTRA_MOVIE, movie);
+                    intent.putExtra(EXTRA_POSITION, position);
+
+                    ContentValues values = new ContentValues();
+                    values.put(DatabaseContractTV.TVColumns.TITLE, movie.getTitle());
+                    values.put(DatabaseContractTV.TVColumns.DESCRIPTION, movie.getDescription());
+                    values.put(DatabaseContractTV.TVColumns.RELEASE_DATE, movie.getReleaseDate());
+                    values.put(DatabaseContractTV.TVColumns.RATING, movie.getRating());
+                    values.put(DatabaseContractTV.TVColumns.COVER, movie.getCover());
+
+                    long result = movieHelperTV.insert(values);
+                    if (result > 0) {
+                        movie.setId((int) result);
+                        setResult(RESULT_ADD, intent);
+                        Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
     }
