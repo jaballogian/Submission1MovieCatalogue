@@ -106,7 +106,7 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
         @Override
         protected ArrayList<Movie> doInBackground(Void... voids) {
             Cursor dataCursor = weakNoteHelper.get().queryAll();
-            return MappingHelper.mapCursorToArrayList(dataCursor);
+            return MappingHelperTV.mapCursorToArrayListTV(dataCursor);
         }
         @Override
         protected void onPostExecute(ArrayList<Movie> movies) {

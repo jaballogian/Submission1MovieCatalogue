@@ -37,6 +37,7 @@ public class MoviesFragment extends Fragment {
     private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
     private MainViewModel mainViewModel;
     private String type = "movie";
+    private Session session;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -51,6 +52,8 @@ public class MoviesFragment extends Fragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentMovies);
         movieRecyclerView = (RecyclerView) view.findViewById(R.id.moviesRecylerView);
+
+        session = new Session();
 //        movieRecyclerView.setHasFixedSize(true);
 //        movies.addAll(getListHeroes());
 
@@ -85,6 +88,8 @@ public class MoviesFragment extends Fragment {
         movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
         movieRecyclerViewAdapter.notifyDataSetChanged();
         movieRecyclerView.setAdapter(movieRecyclerViewAdapter);
+
+        session.setMoviesSize(movieRecyclerViewAdapter.getItemCount());
 
         movieRecyclerViewAdapter.setOnItemClickCallback(new MovieRecyclerViewAdapter.OnItemClickCallback() {
             @Override

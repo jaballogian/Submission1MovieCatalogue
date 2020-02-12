@@ -19,4 +19,13 @@ public class MappingHelperTV {
         }
         return movieList;
     }
+
+    public static ArrayList<String> mapCursorToStringTV(Cursor notesCursor) {
+        ArrayList<String> strings = new ArrayList<>();
+        while (notesCursor.moveToNext()) {
+            String string = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.TITLE));
+            strings.add(string);
+        }
+        return strings;
+    }
 }

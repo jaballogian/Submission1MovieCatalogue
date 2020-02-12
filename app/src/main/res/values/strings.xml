@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Submission 3 Movie Catalogue</string>
+    <string name="app_name">Submission 4 Movie Catalogue</string>
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
     <string name="change_language_settings">Change language</string>
@@ -12,4 +12,5 @@
     <string name="failed_to_delete_data">Failed to delete data</string>
     <string name="failed_to_add_data">Failed to add data</string>
     <string name="deleted_from_favorite">Deleted from favorite</string>
+    <string name="already_in_favorite">Already in favorite</string>
 </resources>

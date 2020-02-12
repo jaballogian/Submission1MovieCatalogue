@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pengumpulan 3 Katalog Film</string>
+    <string name="app_name">Pengumpulan 4 Katalog Film</string>
     <string name="movies">Film</string>
     <string name="tv_shows">Acara TV</string>
     <string name="change_language_settings">Ubah bahasa</string>
@@ -8,9 +8,10 @@
     <string name="favorite_tv_shows">Acara TV Favorite</string>
     <string name="my_favorite">Favoritku</string>
     <string name="add_to_favorite">Tambah ke favorite</string>
-    <string name="added_to_favorite">Ditambah ke favorite</string>
-    <string name="delete_from_favorite">Hapus dari Favorite</string>
+    <string name="added_to_favorite">Ditambah ke favorit</string>
+    <string name="delete_from_favorite">Hapus dari Favorit</string>
     <string name="failed_to_delete_data">Gagal untuk menghapus data</string>
     <string name="failed_to_add_data">Gagal menambah data</string>
-    <string name="deleted_from_favorite">Dihapus dari favorite</string>
+    <string name="deleted_from_favorite">Dihapus dari favorit</string>
+    <string name="already_in_favorite">Sudah terdapat di dalam favorite</string>
 </resources>

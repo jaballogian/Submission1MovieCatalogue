@@ -37,6 +37,7 @@ public class TVShowsFragment extends Fragment  {
     private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
     private MainViewModel mainViewModel;
     private String type = "tv";
+    private Session session;
 
     public TVShowsFragment() {
         // Required empty public constructor
@@ -51,6 +52,8 @@ public class TVShowsFragment extends Fragment  {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentTVShows);
         movieRecyclerView = (RecyclerView) view.findViewById(R.id.tvShowsRecylerView);
+
+        session = new Session();
 //        movieRecyclerView.setHasFixedSize(true);
 //        movies.addAll(getListHeroes());
         showRecyclerList();
@@ -84,6 +87,8 @@ public class TVShowsFragment extends Fragment  {
         movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
         movieRecyclerViewAdapter.notifyDataSetChanged();
         movieRecyclerView.setAdapter(movieRecyclerViewAdapter);
+
+        session.setTvSize(movieRecyclerViewAdapter.getItemCount());
 
         movieRecyclerViewAdapter.setOnItemClickCallback(new MovieRecyclerViewAdapter.OnItemClickCallback() {
             @Override
