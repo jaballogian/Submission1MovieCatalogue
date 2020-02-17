@@ -30,13 +30,22 @@ public class MainViewModel extends ViewModel {
     private static final String API_KEY = "58c087a2b6445fa861b67095aafefe77";
     private MutableLiveData<ArrayList<Movie>> listMovies = new MutableLiveData<>();
     private GetMoviesData getMoviesData;
-    private String type, language;
+    private String type, language, hint = "", link;
     final ArrayList<Movie> movies = new ArrayList<>();
 
     void setMovie (final String type, final String language) {
 
         this.type = type;
         this.language = language;
+        getMoviesData = new GetMoviesData();
+        getMoviesData.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+    }
+
+    void setSearchMovie (final String type, final String language, final String hint){
+
+        this.type = type;
+        this.language = language;
+        this.hint = hint;
         getMoviesData = new GetMoviesData();
         getMoviesData.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
@@ -49,22 +58,20 @@ public class MainViewModel extends ViewModel {
 
         String result ="";
         static final String LOG_ASYNC = "DemoAsync";
-//        String type = "movie";
-//        String language = "en-US";
         int totalMovies;
-
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Log.d(LOG_ASYNC, "status : onPreExecute");
-//
-//        }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
+            if(hint.isEmpty()){
+                link = "https://api.themoviedb.org/3/discover/" + type + "?api_key=" + API_KEY + "&language=" + language;
+            }
+            else {
+                link = "https://api.themoviedb.org/3/search/" + type + "?api_key=" + API_KEY + "&language=" + language + "&query=" + hint;
+            }
+
             try {
-                URL url = new URL("https://api.themoviedb.org/3/discover/" + type + "?api_key=" + "58c087a2b6445fa861b67095aafefe77" + "&language=" + language);
+                URL url = new URL(link);
                 Log.d("url", url.toString());
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();

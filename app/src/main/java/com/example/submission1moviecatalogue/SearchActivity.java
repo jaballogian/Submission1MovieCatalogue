@@ -1,72 +1,60 @@
-
 package com.example.submission1moviecatalogue;
 
-
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
 
+public class SearchActivity extends AppCompatActivity {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MoviesFragment extends Fragment {
-
+    private String hint, type;
+    private int tab;
     private RecyclerView movieRecyclerView;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ProgressBar progressBar;
     private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
     private MainViewModel mainViewModel;
-    private String type = "movie";
     private Session session;
 
-    public MoviesFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = (View) inflater.inflate(R.layout.fragment_movies, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentMovies);
-        movieRecyclerView = (RecyclerView) view.findViewById(R.id.moviesRecylerView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarActivitySearch);
+        movieRecyclerView = (RecyclerView) findViewById(R.id.moviesRecylerViewActivitySearch);
+
+        hint = getIntent().getExtras().getString("hint");
+        tab = getIntent().getExtras().getInt("currentTab");
+
+        Log.d("hintSearchActivity", hint);
+        Log.d("tabSearchActivity", String.valueOf(tab));
+
+        if(tab == 0){
+            type = "movie";
+        }
+        else if(tab == 1){
+            type = "tv";
+        }
 
         session = new Session();
-//        movieRecyclerView.setHasFixedSize(true);
-//        movies.addAll(getListHeroes());
 
         showRecyclerList();
 
         mainViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MainViewModel.class);
 
-        mainViewModel.setMovie(type, "en-US");
+        mainViewModel.setSearchMovie(type, "en-US", hint);
         showLoading(true);
 
         mainViewModel.getMovies().observe(this, new Observer<ArrayList<Movie>>() {
@@ -85,11 +73,10 @@ public class MoviesFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     private void showRecyclerList(){
-        movieRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        movieRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies);
         movieRecyclerViewAdapter.notifyDataSetChanged();
         movieRecyclerView.setAdapter(movieRecyclerViewAdapter);
@@ -106,11 +93,10 @@ public class MoviesFragment extends Fragment {
 
     private void showSelectedMovie(Movie movie) {
 
-            Intent moveWithObjectIntent = new Intent(getContext(), DetailActivity.class);
-            moveWithObjectIntent.putExtra(EXTRA_MOVIE, movie);
-            moveWithObjectIntent.putExtra("type", type);
-//            startActivityForResult(moveWithObjectIntent, REQUEST_ADD);
-            startActivity(moveWithObjectIntent);
+        Intent moveWithObjectIntent = new Intent(this, DetailActivity.class);
+        moveWithObjectIntent.putExtra(EXTRA_MOVIE, movie);
+        moveWithObjectIntent.putExtra("type", type);
+        startActivity(moveWithObjectIntent);
     }
 
     private void showLoading(Boolean state) {

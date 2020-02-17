@@ -1,17 +1,23 @@
 package com.example.submission1moviecatalogue;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,10 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter movieAdapter;
-//    private ListView listView;
-    private String[] movieTitle, movieDescription, movieRating, movieDate;
-    private TypedArray movieCover;
-    private ArrayList<Movie> movies;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,65 +34,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
 
         getSupportActionBar().setElevation(0);
 
-//        listView = findViewById(R.id.movieListView);
         movieAdapter = new MovieAdapter(this);
-//        listView.setAdapter(movieAdapter);
-
-//        initializeListView();
-//        addItemToListView();
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Movie movie = new Movie();
-//                movie.setTitle(movieTitle[position]);
-//                movie.setReleaseDate(movieDate[position]);
-//                movie.setRating(movieRating[position]);
-//                movie.setDescription(movieDescription[position]);
-//                movie.setCover(movieCover.getResourceId(position, -1));
-//
-//                Intent moveWithObjectIntent = new Intent(MainActivity.this, DetailActivity.class);
-//                moveWithObjectIntent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
-//                startActivity(moveWithObjectIntent);
-//            }
-//        });
     }
 
-    private void initializeListView(){
-
-//        movieTitle = getResources().getStringArray(R.array.movieTitle);
-//        movieDescription= getResources().getStringArray(R.array.movieDescription);
-//        movieRating = getResources().getStringArray(R.array.movieRating);
-//        movieDate = getResources().getStringArray(R.array.movieDate);
-//        movieCover = getResources().obtainTypedArray(R.array.movieCover);
-    }
-
-    private void addItemToListView() {
-
-//        movies = new ArrayList<>();
-//        for (int i = 0; i < movieTitle.length; i++) {
-//            Movie movie = new Movie();
-//            movie.setCover(movieCover.getResourceId(i, -1));
-//            movie.setTitle(movieTitle[i]);
-//            movie.setDescription(movieDescription[i]);
-//            movie.setRating(movieRating[i]);
-//            movie.setReleaseDate(movieDate[i]);
-//            movies.add(movie);
-//        }
-//        movieAdapter.setMovies(movies);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.language_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setQueryHint(getResources().getString(R.string.search_hint));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    intent.putExtra("currentTab", viewPager.getCurrentItem());
+                    intent.putExtra("hint", query);
+                    startActivity(intent);
+
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+        }
         return super.onCreateOptionsMenu(menu);
     }
     @Override
