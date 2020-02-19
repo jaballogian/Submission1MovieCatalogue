@@ -16,4 +16,7 @@
     <string name="already_in_favorite">Sudah terdapat di dalam favorit</string>
     <string name="search">Pencarian</string>
     <string name="search_hint">Kata Pencarian</string>
+    <string name="appwidget_text">Spanduk film</string>
+    <string name="empty_text">Tidak ada data film</string>
+    <string name="touched">Tampilan yang disentuh </string>
 </resources>

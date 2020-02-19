@@ -28,4 +28,13 @@ public class MappingHelper {
         }
         return strings;
     }
+
+    public static ArrayList<String> mapCursorToStringImage(Cursor notesCursor) {
+        ArrayList<String> strings = new ArrayList<>();
+        while (notesCursor.moveToNext()) {
+            String stringImage = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.COVER));
+            strings.add(stringImage);
+        }
+        return strings;
+    }
 }
