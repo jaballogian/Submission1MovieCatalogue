@@ -8,9 +8,16 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.bumptech.glide.Glide;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,32 +41,13 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         movieHelper.open();
         movieHelperTV.open();
 
+        addItemsToWidget();
     }
 
     @Override
     public void onDataSetChanged() {
 
-        Cursor cursorMovie = movieHelper.queryAll();
-        ArrayList<String> titlesMovie = MappingHelper.mapCursorToStringImage(cursorMovie);
-        Log.d("titlesMovie", titlesMovie.toString());
-
-        Cursor cursorTV= movieHelperTV.queryAll();
-        ArrayList<String> titlesTV = MappingHelperTV.mapCursorToStringImageTV(cursorTV);
-        Log.d("titlesTV ", titlesTV.toString());
-
-        for(int i = 0; i < titlesMovie.size(); i++){
-
-            byte [] encodeByte = Base64.decode(titlesMovie.get(i),Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            mWidgetItems.add(bitmap);
-        }
-
-        for(int j = 0; j < 0; j++){
-
-            byte [] encodeByte = Base64.decode(titlesTV.get(j),Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            mWidgetItems.add(bitmap);
-        }
+        addItemsToWidget();
     }
 
     @Override
@@ -103,5 +91,41 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    private void addItemsToWidget(){
+
+        Cursor cursorMovie = movieHelper.queryAll();
+        ArrayList<String> titlesMovie = MappingHelper.mapCursorToStringImage(cursorMovie);
+        Log.d("titlesMovie", titlesMovie.toString());
+
+        Cursor cursorTV= movieHelperTV.queryAll();
+        ArrayList<String> titlesTV = MappingHelperTV.mapCursorToStringImageTV(cursorTV);
+        Log.d("titlesTV ", titlesTV.toString());
+
+        for(int i = 0; i < titlesMovie.size(); i++){
+
+            mWidgetItems.add(getBitmapFromURL(titlesMovie.get(i)));
+        }
+
+        for(int j = 0; j < titlesTV.size(); j++){
+
+            mWidgetItems.add(getBitmapFromURL(titlesTV.get(j)));
+        }
+    }
+
+    private static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 }
