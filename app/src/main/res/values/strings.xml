@@ -19,4 +19,5 @@
     <string name="empty_text">No film data</string>
     <string name="touched">Touched view </string>
     <string name="daily_reminder">Daily reminder, go to application</string>
+    <string name="release_today">Release today</string>
 </resources>

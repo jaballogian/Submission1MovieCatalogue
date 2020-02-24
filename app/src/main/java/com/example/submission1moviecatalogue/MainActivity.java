@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         alarmReceiver = new AlarmReceiver();
 
         setDailyReminder();
+        setReleaseToday();
     }
 
 
@@ -98,5 +99,13 @@ public class MainActivity extends AppCompatActivity {
         alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
                 repeatTime, repeatMessage);
 
+    }
+
+    private void setReleaseToday(){
+
+        String repeatTime = "08:00";
+        String repeatMessage = getString(R.string.release_today);
+        alarmReceiver.setReleaseToday(this, AlarmReceiver.TYPE_REPEATING,
+                repeatTime, repeatMessage);
     }
 }
