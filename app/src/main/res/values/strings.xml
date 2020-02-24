@@ -18,4 +18,5 @@
     <string name="appwidget_text">Film Banner</string>
     <string name="empty_text">No film data</string>
     <string name="touched">Touched view </string>
+    <string name="daily_reminder">Daily reminder, go to application</string>
 </resources>

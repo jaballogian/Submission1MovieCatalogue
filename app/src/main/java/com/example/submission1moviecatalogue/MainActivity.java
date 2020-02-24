@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter movieAdapter;
     private ViewPager viewPager;
+    private AlarmReceiver alarmReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         movieAdapter = new MovieAdapter(this);
+
+        alarmReceiver = new AlarmReceiver();
+
+        setDailyReminder();
     }
 
 
@@ -84,5 +89,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mIntent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setDailyReminder(){
+
+        String repeatTime = "07:00";
+        String repeatMessage = getString(R.string.daily_reminder);
+        alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
+                repeatTime, repeatMessage);
+
     }
 }
