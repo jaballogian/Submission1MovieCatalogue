@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.load.resource.drawable.DrawableResource;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,17 +61,27 @@ public class AlarmReceiver extends BroadcastReceiver {
     private static final int MAX_NOTIFICATION = 10000;
     private Context context;
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
+        this.context = context;
         String type = intent.getStringExtra(EXTRA_TYPE);
         String message = intent.getStringExtra(EXTRA_MESSAGE);
         String title = type.equalsIgnoreCase(TYPE_ONE_TIME) ? TYPE_ONE_TIME : TYPE_REPEATING;
         int notifId = type.equalsIgnoreCase(TYPE_ONE_TIME) ? ID_ONETIME : ID_REPEATING;
         showToast(context, title, message);
-        showAlarmNotification(context, title, message, notifId, "Channel_1", "AlarmManager channel");
+
+        if(message.equals(context.getString(R.string.daily_reminder))){
+            showAlarmNotification(context, title, message, notifId, "Channel_1", "AlarmManager channel");
+            Log.d("masuk", "daily reminder");
+        }
+        Log.d("message on receive", message);
+        if(message.equals(context.getString(R.string.release_today))) {
+            Log.d("masuk", "release today");
+            getReleaseTodayData = new GetReleaseTodayData();
+            getReleaseTodayData.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        }
     }
 
     private void showToast(Context context, String title, String message) {
@@ -128,36 +140,42 @@ public class AlarmReceiver extends BroadcastReceiver {
         intent.putExtra(EXTRA_MESSAGE, message);
         intent.putExtra(EXTRA_TYPE, type);
         String[] timeArray = time.split(":");
+        Calendar now = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeArray[0]));
         calendar.set(Calendar.MINUTE, Integer.parseInt(timeArray[1]));
         calendar.set(Calendar.SECOND, 0);
+       if(now.getTimeInMillis() > calendar.getTimeInMillis()){
+               calendar.add(Calendar.DATE, 1);
+       }
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 //        Toast.makeText(context, "Repeating alarm set up", Toast.LENGTH_SHORT).show();
+
     }
 
     public void setReleaseToday(Context context, String type, String time, String message) {
         if (isDateInvalid(time, TIME_FORMAT)) return;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(EXTRA_TYPE, type);
         String[] timeArray = time.split(":");
+        Calendar now = Calendar.getInstance();
         Calendar releaseToday = Calendar.getInstance();
         releaseToday.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeArray[0]));
         releaseToday.set(Calendar.MINUTE, Integer.parseInt(timeArray[1]));
         releaseToday.set(Calendar.SECOND, 0);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0);
+        if(now.getTimeInMillis() > releaseToday.getTimeInMillis()){
+            releaseToday.add(Calendar.DATE, 1);
+        }
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 102, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, releaseToday.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 //        Toast.makeText(context, "Repeating alarm set up", Toast.LENGTH_SHORT).show();
-
-        this.context = context;
-        getReleaseTodayData = new GetReleaseTodayData();
-        getReleaseTodayData.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
-
     }
 
     private class GetReleaseTodayData extends AsyncTask<Void,Void,Void> {
@@ -224,39 +242,50 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             for(int i = 0; i < films.size(); i++){
 
-                sendNotif();
+                sendNotif(films.get(i).getTitle(), films.get(i).getDescription(), R.drawable.ic_live_tv_white_24dp);
                 idNotification++;
             }
         }
 
     }
 
-    private void sendNotif() {
+    private void sendNotif(String title, String description, int drawable) {
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder;
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         //Melakukan pengecekan jika idNotification lebih kecil dari Max Notif
-        String CHANNEL_ID = "channel_01";
+        String CHANNEL_ID = "Channel_02";
         if (idNotification < MAX_NOTIFICATION) {
             mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setContentTitle(films.get(idNotification).getTitle())
-                    .setContentText(films.get(idNotification).getDescription())
-                    .setSmallIcon(R.drawable.ic_live_tv_white_24dp)
+//                    .setContentTitle(films.get(idNotification).getTitle())
+//                    .setContentText(films.get(idNotification).getDescription())
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setSmallIcon(drawable)
                     .setGroup(GROUP_KEY_EMAILS)
                     .setContentIntent(pendingIntent)
+                    .setColor(ContextCompat.getColor(context, android.R.color.transparent))
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setSound(alarmSound)
                     .setAutoCancel(true);
         } else {
 
             mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setContentTitle(films.get(idNotification).getTitle())
-                    .setContentText(films.get(idNotification).getDescription())
+//                    .setContentTitle(films.get(idNotification).getTitle())
+//                    .setContentText(films.get(idNotification).getDescription())
+                    .setContentTitle(title)
+                    .setContentText(description)
                     .setSmallIcon(R.drawable.ic_live_tv_white_24dp)
                     .setGroup(GROUP_KEY_EMAILS)
                     .setGroupSummary(true)
                     .setContentIntent(pendingIntent)
+                    .setColor(ContextCompat.getColor(context, android.R.color.transparent))
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setSound(alarmSound)
                     .setAutoCancel(true);
         }
      /*

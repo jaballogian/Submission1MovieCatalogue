@@ -21,4 +21,7 @@
     <string name="touched">Tampilan yang disentuh </string>
     <string name="daily_reminder">Pengingat harian, masuk ke aplikasi</string>
     <string name="release_today">Rilis hari ini</string>
+    <string name="set_reminder">Set reminder</string>
+    <string name="set_release_today_reminder">Atur pengingat rilis hari ini</string>
+    <string name="set_daily_reminder">Atur pengingat harian</string>
 </resources>

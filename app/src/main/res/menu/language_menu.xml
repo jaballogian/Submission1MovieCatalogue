@@ -10,6 +10,10 @@
             android:id="@+id/to_favorite_activity"
             android:title="@string/my_favorite"
             app:showAsAction="never"/>
+        <item
+            android:id="@+id/set_reminder"
+            android:title="@string/set_reminder"
+            app:showAsAction="never"/>
     </group>
     <item
         android:id="@+id/search"

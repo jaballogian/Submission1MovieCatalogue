@@ -20,4 +20,7 @@
     <string name="touched">Touched view </string>
     <string name="daily_reminder">Daily reminder, go to application</string>
     <string name="release_today">Release today</string>
+    <string name="set_reminder">Set reminder</string>
+    <string name="set_release_today_reminder">Set release today reminder</string>
+    <string name="set_daily_reminder">Set daily reminder</string>
 </resources>
