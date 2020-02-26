@@ -48,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
             type = "tv";
         }
 
-        session = new Session();
+        session = new Session(this);
 
         showRecyclerList();
 

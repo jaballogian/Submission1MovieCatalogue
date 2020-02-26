@@ -58,7 +58,7 @@ public class MoviesFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentMovies);
         movieRecyclerView = (RecyclerView) view.findViewById(R.id.moviesRecylerView);
 
-        session = new Session();
+        session = new Session(getContext());
 //        movieRecyclerView.setHasFixedSize(true);
 //        movies.addAll(getListHeroes());
 

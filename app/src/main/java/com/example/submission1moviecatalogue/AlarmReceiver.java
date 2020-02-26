@@ -45,11 +45,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String TYPE_ONE_TIME = "OneTimeAlarm";
     public static final String TYPE_REPEATING = "RepeatingAlarm";
+    public static final String TYPE_RELEASE_TODAY = "ReleaseToday";
     public static final String EXTRA_MESSAGE = "message";
     public static final String EXTRA_TYPE = "type";
     // Siapkan 2 id untuk 2 macam alarm, onetime dna repeating
     private final int ID_ONETIME = 100;
     private final int ID_REPEATING = 101;
+    private final int ID_RELEASE_TODAY = 102;
     private String DATE_FORMAT = "yyyy-MM-dd";
     private String TIME_FORMAT = "HH:mm";
     final ArrayList<Movie> films = new ArrayList<>();
@@ -68,8 +70,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         this.context = context;
         String type = intent.getStringExtra(EXTRA_TYPE);
         String message = intent.getStringExtra(EXTRA_MESSAGE);
-        String title = type.equalsIgnoreCase(TYPE_ONE_TIME) ? TYPE_ONE_TIME : TYPE_REPEATING;
-        int notifId = type.equalsIgnoreCase(TYPE_ONE_TIME) ? ID_ONETIME : ID_REPEATING;
+        String title = type.equalsIgnoreCase(TYPE_REPEATING) ? TYPE_REPEATING : TYPE_RELEASE_TODAY;
+        int notifId = type.equalsIgnoreCase(TYPE_REPEATING) ? ID_REPEATING : ID_RELEASE_TODAY;
         showToast(context, title, message);
 
         if(message.equals(context.getString(R.string.daily_reminder))){
@@ -171,7 +173,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(now.getTimeInMillis() > releaseToday.getTimeInMillis()){
             releaseToday.add(Calendar.DATE, 1);
         }
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 102, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, ID_RELEASE_TODAY, intent, 0);
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, releaseToday.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
@@ -314,4 +316,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 //        films.clear();
 //        idNotification= 0;
 //    }
+
+    public void cancelAlarm(Context context, String type) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        int requestCode = type.equalsIgnoreCase(TYPE_REPEATING) ? ID_REPEATING : ID_RELEASE_TODAY;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
+        pendingIntent.cancel();
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+//        Toast.makeText(context, "Repeating alarm dibatalkan", Toast.LENGTH_SHORT).show();
+    }
 }

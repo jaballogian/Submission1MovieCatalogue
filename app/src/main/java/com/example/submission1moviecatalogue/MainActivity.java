@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private ViewPager viewPager;
     private AlarmReceiver alarmReceiver;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,26 @@ public class MainActivity extends AppCompatActivity {
 
         alarmReceiver = new AlarmReceiver();
 
-        setDailyReminder();
-        setReleaseToday();
+        session = new Session(this);
+
+        if(session.getDailyReminderSetting() == true){
+            setDailyReminder();
+        }
+        else if(session.getDailyReminderSetting() == false){
+            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+        }
+
+        Log.d("dailyReminder", String.valueOf(session.getDailyReminderSetting()));
+
+        if(session.getReleaseTodaySetting() == true){
+            setReleaseToday();
+        }
+        else if(session.getReleaseTodaySetting() == false){
+            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_RELEASE_TODAY);
+        }
+
+        Log.d("releaseToday", String.valueOf(session.getReleaseTodaySetting()));
+
     }
 
 

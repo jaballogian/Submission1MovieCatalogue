@@ -53,7 +53,7 @@ public class TVShowsFragment extends Fragment  {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarFragmentTVShows);
         movieRecyclerView = (RecyclerView) view.findViewById(R.id.tvShowsRecylerView);
 
-        session = new Session();
+        session = new Session(getContext());
 //        movieRecyclerView.setHasFixedSize(true);
 //        movies.addAll(getListHeroes());
         showRecyclerList();

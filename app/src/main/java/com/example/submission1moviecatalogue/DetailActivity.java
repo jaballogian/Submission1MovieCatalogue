@@ -49,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBarActivityDetail);
         addToFavorite = (Button) findViewById(R.id.addToFavorite);
 
-        session = new Session();
+        session = new Session(this);
 
         showLoading(true);
 
