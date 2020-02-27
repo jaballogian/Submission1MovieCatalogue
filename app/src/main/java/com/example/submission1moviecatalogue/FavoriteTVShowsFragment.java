@@ -1,7 +1,9 @@
 package com.example.submission1moviecatalogue;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +53,15 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
         movieHelperTV = movieHelperTV.getInstance(getContext());
         movieHelperTV.open();
 
-        new FavoriteTVShowsFragment.LoadNotesAsync(movieHelperTV, this).execute();
+        HandlerThread handlerThread = new HandlerThread("DataObserver");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper());
+        DataObserver myObserver = new DataObserver(handler, getContext());
+        getContext().getContentResolver().registerContentObserver(DatabaseContractTV.TVColumns.CONTENT_URI_TV, true, myObserver);
 
         if (savedInstanceState == null) {
             // proses ambil data
-            new FavoriteTVShowsFragment.LoadNotesAsync(movieHelperTV, this).execute();
+            new FavoriteTVShowsFragment.LoadNotesAsync(getContext(), this).execute();
         } else {
             ArrayList<Movie> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
             if (list != null) {
@@ -91,11 +99,11 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
 
     private static class LoadNotesAsync extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
-        private final WeakReference<MovieHelperTV> weakNoteHelper;
+        private final WeakReference<Context> weakContext;
         private final WeakReference<LoadMoviesCallbackTV> weakCallback;
 
-        private LoadNotesAsync(MovieHelperTV movieHelperTV, LoadMoviesCallbackTV loadMoviesCallbackTV) {
-            weakNoteHelper = new WeakReference<>(movieHelperTV);
+        private LoadNotesAsync(Context context, LoadMoviesCallbackTV loadMoviesCallbackTV) {
+            weakContext = new WeakReference<>(context);
             weakCallback = new WeakReference<>(loadMoviesCallbackTV);
         }
         @Override
@@ -105,7 +113,8 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
         }
         @Override
         protected ArrayList<Movie> doInBackground(Void... voids) {
-            Cursor dataCursor = weakNoteHelper.get().queryAll();
+            Context context = weakContext.get();
+            Cursor dataCursor = context.getContentResolver().query(DatabaseContractTV.TVColumns.CONTENT_URI_TV, null, null, null, null);
             return MappingHelperTV.mapCursorToArrayListTV(dataCursor);
         }
         @Override
@@ -145,6 +154,19 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
 //            }
 //        }
 //    }
+
+    public static class DataObserver extends ContentObserver {
+        final Context context;
+        public DataObserver(Handler handler, Context context) {
+            super(handler);
+            this.context = context;
+        }
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            new LoadNotesAsync(context, (LoadMoviesCallbackTV) context).execute();
+        }
+    }
 
 }
 

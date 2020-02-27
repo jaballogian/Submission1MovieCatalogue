@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import static com.example.submission1moviecatalogue.DatabaseContract.MovieColumns.CONTENT_URI;
+import static com.example.submission1moviecatalogue.DatabaseContractTV.TVColumns.CONTENT_URI_TV;
 
 public class FavoriteDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +28,7 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
     private ImageView favoriteCoverImageView;
     private TextView favoriteTitleTextView, favoriteDateTextView, favoriteRatingTextView, favoriteDescriptionTextView;
     private String state = "";
-    private Uri uriWithId;
+    private Uri uriWithId, uriWithIDTV;
 
     public static final String EXTRA_MOVIE = "extra_movie";
     public static final String EXTRA_POSITION = "extra_position";
@@ -72,9 +73,9 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
             try {
 
                 uriWithId = Uri.parse(CONTENT_URI + "/" + movie.getId());
-                Toast.makeText(FavoriteDetailActivity.this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
                 Intent toFavoriteActivity = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
                 startActivity(toFavoriteActivity);
+                Toast.makeText(FavoriteDetailActivity.this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
                 getContentResolver().delete(uriWithId, null, null);
 
 //                long result = movieHelper.deleteById(String.valueOf(movie.getId()));
@@ -92,26 +93,31 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
             }
             catch (Exception error){
 
+                uriWithIDTV = Uri.parse(CONTENT_URI_TV + "/" + movie.getId());
+                Intent toFavoriteActivity = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+                startActivity(toFavoriteActivity);
+                Toast.makeText(FavoriteDetailActivity.this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+                getContentResolver().delete(uriWithIDTV, null, null);
             }
 
-            if (state.equals(getString(R.string.failed_to_delete_data))){
-
-                try {
-
-                    long result = movieHelperTV.deleteById(String.valueOf(movie.getId()));
-                    if (result > 0) {
-                        Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
-                        intent.putExtra(EXTRA_POSITION, position);
-                        setResult(RESULT_DELETE, intent);
-                        Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-                catch (Exception error){
-
-                }
-            }
+//            if (state.equals(getString(R.string.failed_to_delete_data))){
+//
+//                try {
+//
+//                    long result = movieHelperTV.deleteById(String.valueOf(movie.getId()));
+//                    if (result > 0) {
+//                        Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+//                        intent.putExtra(EXTRA_POSITION, position);
+//                        setResult(RESULT_DELETE, intent);
+//                        Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//                catch (Exception error){
+//
+//                }
+//            }
         }
     }
 }
