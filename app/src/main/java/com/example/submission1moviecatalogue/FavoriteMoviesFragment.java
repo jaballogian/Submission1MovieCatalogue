@@ -1,7 +1,9 @@
 package com.example.submission1moviecatalogue;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
@@ -12,6 +14,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,11 +64,15 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         movieHelper = movieHelper.getInstance(getContext());
         movieHelper.open();
 
-        new LoadNotesAsync(movieHelper, this).execute();
+        HandlerThread handlerThread = new HandlerThread("DataObserver");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper());
+        DataObserver myObserver = new DataObserver(handler, getContext());
+        getContext().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.CONTENT_URI, true, myObserver);
 
         if (savedInstanceState == null) {
             // proses ambil data
-            new LoadNotesAsync(movieHelper, this).execute();
+            new LoadNotesAsync(getContext(), this).execute();
         } else {
             ArrayList<Movie> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
             if (list != null) {
@@ -102,11 +110,11 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 
     private static class LoadNotesAsync extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
-        private final WeakReference<MovieHelper> weakNoteHelper;
+        private final WeakReference<Context> weakContext;
         private final WeakReference<LoadMoviesCallback> weakCallback;
 
-        private LoadNotesAsync(MovieHelper movieHelper, LoadMoviesCallback loadMoviesCallback) {
-            weakNoteHelper = new WeakReference<>(movieHelper);
+        private LoadNotesAsync(Context context, LoadMoviesCallback loadMoviesCallback) {
+            weakContext = new WeakReference<>(context);
             weakCallback = new WeakReference<>(loadMoviesCallback);
         }
         @Override
@@ -116,7 +124,8 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         }
         @Override
         protected ArrayList<Movie> doInBackground(Void... voids) {
-            Cursor dataCursor = weakNoteHelper.get().queryAll();
+            Context context = weakContext.get();
+            Cursor dataCursor = context.getContentResolver().query(DatabaseContract.MovieColumns.CONTENT_URI, null, null, null, null);
             return MappingHelper.mapCursorToArrayList(dataCursor);
         }
         @Override
@@ -156,6 +165,19 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 //            }
 //        }
 //    }
+
+    public static class DataObserver extends ContentObserver {
+        final Context context;
+        public DataObserver(Handler handler, Context context) {
+            super(handler);
+            this.context = context;
+        }
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            new LoadNotesAsync(context, (LoadMoviesCallback) context).execute();
+        }
+    }
 
 }
 

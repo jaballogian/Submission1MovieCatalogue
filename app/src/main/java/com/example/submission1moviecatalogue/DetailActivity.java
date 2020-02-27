@@ -3,9 +3,14 @@ package com.example.submission1moviecatalogue;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +22,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import static com.example.submission1moviecatalogue.DatabaseContract.MovieColumns.CONTENT_URI;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_POSITION;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
@@ -35,9 +42,10 @@ public class DetailActivity extends AppCompatActivity {
     private MovieHelper movieHelper;
     private MovieHelperTV movieHelperTV;
     private Session session;
+    private static final String EXTRA_STATE = "EXTRA_STATE";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -94,14 +102,19 @@ public class DetailActivity extends AppCompatActivity {
                     values.put(DatabaseContract.MovieColumns.RATING, movie.getRating());
                     values.put(DatabaseContract.MovieColumns.COVER, movie.getCover());
 
-                    Cursor cursor = movieHelper.queryAll();
-                    ArrayList<String> titles = MappingHelper.mapCursorToString(cursor);
-                    Log.d("titles", titles.toString());
+                    WeakReference<DetailActivity> weakContext = new WeakReference<>(DetailActivity.this);
+                    Context context = weakContext.get();
+                    Cursor dataCursor = context.getContentResolver().query(DatabaseContract.MovieColumns.CONTENT_URI, null, null, null, null);
+                    ArrayList<Movie> movies = MappingHelper.mapCursorToArrayList(dataCursor);
+//                    Cursor cursor = movieHelper.queryAll();
+//                    ArrayList<String> titles = MappingHelper.mapCursorToString(cursor);
+
+                    Log.d("titlesDetailActivity", movies.toString());
 
                     int already = 0;
-                    for(int i = 0; i < titles.size(); i++){
+                    for(int i = 0; i < movies.size(); i++){
 
-                        if(titles.get(i).equals(movie.getTitle())){
+                        if(movies.get(i).getTitle().equals(movie.getTitle())){
 
                             already++;
                         }
@@ -109,17 +122,22 @@ public class DetailActivity extends AppCompatActivity {
 
                     if(already == 0){
 
-                        long result = movieHelper.insert(values);
-
-                        if (result > 0) {
-//                            movie.setId((int) result);
-                            movie.setId(movie.getId());
-                            setResult(RESULT_ADD, intent);
-                            Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                            finish();
-                        } else {
-                            Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
-                        }
+                        getContentResolver().insert(CONTENT_URI, values);
+                        Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
+                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
+                        startActivity(toFavoriteActivity);
+                        finish();
+//                        long result = movieHelper.insert(values);
+//
+//                        if (result > 0) {
+////                            movie.setId((int) result);
+//                            movie.setId(movie.getId());
+//                            setResult(RESULT_ADD, intent);
+//                            Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
+//                            finish();
+//                        } else {
+//                            Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
+//                        }
                     }
                     else {
 
@@ -184,4 +202,5 @@ public class DetailActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
     }
+
 }

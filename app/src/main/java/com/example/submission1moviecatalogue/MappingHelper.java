@@ -37,4 +37,15 @@ public class MappingHelper {
         }
         return strings;
     }
+
+    public static Movie mapCursorToObject(Cursor notesCursor) {
+        notesCursor.moveToFirst();
+        int id = notesCursor.getInt(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns._ID));
+        String title = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.TITLE));
+        String description = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.DESCRIPTION));
+        String releaseDate = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.RELEASE_DATE));
+        String rating = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.RATING));
+        String cover = notesCursor.getString(notesCursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.COVER));
+        return new Movie(id, title, description, releaseDate, rating, cover);
+    }
 }
