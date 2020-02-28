@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 
 public class DatabaseContract {
 
-    public static final String AUTHORITY = "com.example.submission1moviecatalogue";
+    public static final String AUTHORITY = "com.example.submission1moviecatalogue.MOVIE";
     private static final String SCHEME = "content";
 
     static String TABLE_NAME = "movie";
