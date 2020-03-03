@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
-import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +24,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     private final Context mContext;
     private MovieHelper movieHelper;
     private MovieHelperTV movieHelperTV;
+    private GetBitmap getBitmap;
 
     StackRemoteViewsFactory(Context context) {
         mContext = context;
@@ -105,16 +103,20 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
 
         for(int i = 0; i < titlesMovie.size(); i++){
 
-            mWidgetItems.add(getBitmapFromURL(titlesMovie.get(i)));
+//            mWidgetItems.add(getBitmapFromURL(titlesMovie.get(i)));
+            getBitmap = new GetBitmap();
+            getBitmap.execute(titlesMovie.get(i));
         }
 
         for(int j = 0; j < titlesTV.size(); j++){
 
-            mWidgetItems.add(getBitmapFromURL(titlesTV.get(j)));
+//            mWidgetItems.add(getBitmapFromURL(titlesTV.get(j)));
+            getBitmap = new GetBitmap();
+            getBitmap.execute(titlesTV.get(j));
         }
     }
 
-    private static Bitmap getBitmapFromURL(String src) {
+    public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -128,4 +130,57 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             return null;
         }
     }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        Bitmap bmImage;
+        public DownloadImageTask(Bitmap bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage = result;
+        }
+    }
+
+    public class GetBitmap extends AsyncTask<String, Void, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+
+            try {
+                URL url = new URL(params[0]);
+                Log.d("params[0]", url.toString());
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bmp) {
+            super.onPostExecute(bmp);
+
+            mWidgetItems.add(bmp);
+        }
+    }
+
 }

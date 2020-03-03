@@ -1,24 +1,19 @@
 package com.example.submission1moviecatalogue;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
@@ -29,7 +24,6 @@ import static com.example.submission1moviecatalogue.DatabaseContract.MovieColumn
 import static com.example.submission1moviecatalogue.DatabaseContractTV.TVColumns.CONTENT_URI_TV;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
 import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_POSITION;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -131,8 +125,8 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
-                        startActivity(toFavoriteActivity);
+                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
+                        startActivity(toMainActivity);
                         finish();
 //                        long result = movieHelper.insert(values);
 //
@@ -192,8 +186,8 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI_TV, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
-                        startActivity(toFavoriteActivity);
+                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
+                        startActivity(toMainActivity);
                         finish();
 //                        long result = movieHelperTV.insert(values);
 //
