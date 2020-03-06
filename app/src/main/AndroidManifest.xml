@@ -7,17 +7,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission
-        android:name="com.example.submission1moviecatalogue.MOVIE.READ_DATABASE"
+        android:name="com.example.submission1moviecatalogue.READ_DATABASE"
         android:protectionLevel="normal" />
     <permission
-        android:name="com.example.submission1moviecatalogue.MOVIE.WRITE_DATABASE"
-        android:protectionLevel="normal" />
-
-    <permission
-        android:name="com.example.submission1moviecatalogue.TV.READ_DATABASE"
-        android:protectionLevel="normal" />
-    <permission
-        android:name="com.example.submission1moviecatalogue.TV.WRITE_DATABASE"
+        android:name="com.example.submission1moviecatalogue.WRITE_DATABASE"
         android:protectionLevel="normal" />
 
     <application
@@ -28,19 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name=".ContentProviderTV"
-            android:authorities="com.example.submission1moviecatalogue.TV"
+            android:name="ContentProviderTV"
+            android:authorities="com.example.submission1moviecatalogue"
             android:enabled="true"
             android:exported="true"
-            android:readPermission="com.example.submission1moviecatalogue.TV.READ_DATABASE"
-            android:writePermission="com.example.submission1moviecatalogue.TV.WRITE_DATABASE"></provider>
+            android:grantUriPermissions="true"
+            android:readPermission="com.example.submission1moviecatalogue.READ_DATABASE"
+            android:writePermission="com.example.submission1moviecatalogue.WRITE_DATABASE"></provider>
         <provider
-            android:name=".ContentProviderMovies"
-            android:authorities="com.example.submission1moviecatalogue.MOVIE"
+            android:name="ContentProviderMovies"
+            android:authorities="com.example.submission1moviecatalogue"
             android:enabled="true"
             android:exported="true"
-            android:readPermission="com.example.submission1moviecatalogue.MOVIE.READ_DATABASE"
-            android:writePermission="com.example.submission1moviecatalogue.MOVIE.WRITE_DATABASE"></provider>
+            android:grantUriPermissions="true"
+            android:readPermission="com.example.submission1moviecatalogue.READ_DATABASE"
+            android:writePermission="com.example.submission1moviecatalogue.WRITE_DATABASE"></provider>
 
         <activity android:name=".SetReminderActivity" />
 
