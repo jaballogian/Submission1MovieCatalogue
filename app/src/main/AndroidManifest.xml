@@ -21,19 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name="ContentProviderTV"
+            android:name=".ContentProviderTV"
             android:authorities="com.example.submission1moviecatalogue"
             android:enabled="true"
             android:exported="true"
-            android:grantUriPermissions="true"
             android:readPermission="com.example.submission1moviecatalogue.READ_DATABASE"
             android:writePermission="com.example.submission1moviecatalogue.WRITE_DATABASE"></provider>
         <provider
-            android:name="ContentProviderMovies"
+            android:name=".ContentProviderMovies"
             android:authorities="com.example.submission1moviecatalogue"
             android:enabled="true"
             android:exported="true"
-            android:grantUriPermissions="true"
             android:readPermission="com.example.submission1moviecatalogue.READ_DATABASE"
             android:writePermission="com.example.submission1moviecatalogue.WRITE_DATABASE"></provider>
 
