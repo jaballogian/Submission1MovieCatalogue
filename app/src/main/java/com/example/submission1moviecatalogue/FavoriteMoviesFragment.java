@@ -2,22 +2,37 @@ package com.example.submission1moviecatalogue;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.provider.ContactsContract;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_POSITION;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_UPDATE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_DELETE;
+import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_UPDATE;
 
 
 /**
@@ -44,7 +59,6 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         favoriteAdapter = new FavoriteAdapter(getActivity());
-        favoriteAdapter.setType("movie");
         recyclerView.setAdapter(favoriteAdapter);
 
         movieHelper = movieHelper.getInstance(getContext());
@@ -53,7 +67,7 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
-        DataObserver myObserver = new DataObserver(handler, this);
+        DataObserver myObserver = new DataObserver(handler, getContext());
         getContext().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.CONTENT_URI, true, myObserver);
 
         if (savedInstanceState == null) {
@@ -77,12 +91,12 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 
     @Override
     public void preExecute() {
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
     @Override
     public void postExecute(ArrayList<Movie> movies) {
@@ -112,7 +126,6 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         protected ArrayList<Movie> doInBackground(Void... voids) {
             Context context = weakContext.get();
             Cursor dataCursor = context.getContentResolver().query(DatabaseContract.MovieColumns.CONTENT_URI, null, null, null, null);
-
             return MappingHelper.mapCursorToArrayList(dataCursor);
         }
         @Override
@@ -154,15 +167,15 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 //    }
 
     public static class DataObserver extends ContentObserver {
-        final FavoriteMoviesFragment favoriteMoviesFragment;
-        public DataObserver(Handler handler, FavoriteMoviesFragment context) {
+        final Context context;
+        public DataObserver(Handler handler, Context context) {
             super(handler);
-            this.favoriteMoviesFragment = context;
+            this.context = context;
         }
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new LoadNotesAsync(favoriteMoviesFragment.getContext(), (LoadMoviesCallback) favoriteMoviesFragment).execute();
+            new LoadNotesAsync(context, (LoadMoviesCallback) context).execute();
         }
     }
 

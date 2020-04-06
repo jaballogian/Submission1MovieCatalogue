@@ -125,8 +125,8 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
-                        startActivity(toMainActivity);
+                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
+                        startActivity(toFavoriteActivity);
                         finish();
 //                        long result = movieHelper.insert(values);
 //
@@ -186,8 +186,8 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI_TV, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
-                        startActivity(toMainActivity);
+                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
+                        startActivity(toFavoriteActivity);
                         finish();
 //                        long result = movieHelperTV.insert(values);
 //

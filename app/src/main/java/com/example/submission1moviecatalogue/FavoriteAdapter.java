@@ -21,16 +21,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     private ArrayList<Movie> listFavorite = new ArrayList<>();
     private Activity activity;
 
-    public String type;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public FavoriteAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -71,7 +61,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                 Intent intent = new Intent(activity, FavoriteDetailActivity.class);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_POSITION, position);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_MOVIE, listFavorite.get(position));
-                intent.putExtra(FavoriteDetailActivity.EXTRA_TYPE, type);
                 activity.startActivityForResult(intent, FavoriteDetailActivity.REQUEST_UPDATE);
             }
         }));

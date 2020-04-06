@@ -2,19 +2,22 @@ package com.example.submission1moviecatalogue;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -45,7 +48,6 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         favoriteAdapter = new FavoriteAdapter(getActivity());
-        favoriteAdapter.setType("tv");
         recyclerView.setAdapter(favoriteAdapter);
 
         movieHelperTV = movieHelperTV.getInstance(getContext());
@@ -54,7 +56,7 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
-        DataObserver myObserver = new DataObserver(handler, this);
+        DataObserver myObserver = new DataObserver(handler, getContext());
         getContext().getContentResolver().registerContentObserver(DatabaseContractTV.TVColumns.CONTENT_URI_TV, true, myObserver);
 
         if (savedInstanceState == null) {
@@ -78,12 +80,12 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
 
     @Override
     public void preExecute() {
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
     @Override
     public void postExecute(ArrayList<Movie> movies) {
@@ -154,15 +156,15 @@ public class FavoriteTVShowsFragment extends Fragment implements LoadMoviesCallb
 //    }
 
     public static class DataObserver extends ContentObserver {
-        final FavoriteTVShowsFragment favoriteTVShowsFragment;
-        public DataObserver(Handler handler, FavoriteTVShowsFragment context) {
+        final Context context;
+        public DataObserver(Handler handler, Context context) {
             super(handler);
-            this.favoriteTVShowsFragment = context;
+            this.context = context;
         }
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new LoadNotesAsync(favoriteTVShowsFragment.getActivity(), (LoadMoviesCallbackTV) favoriteTVShowsFragment).execute();
+            new LoadNotesAsync(context, (LoadMoviesCallbackTV) context).execute();
         }
     }
 

@@ -1,15 +1,17 @@
 package com.example.submission1moviecatalogue;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
@@ -35,7 +37,6 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
     public static final int REQUEST_UPDATE = 200;
     public static final int RESULT_UPDATE = 201;
     public static final int RESULT_DELETE = 301;
-    public static final String EXTRA_TYPE = "type";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +70,28 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
 
         if (view.getId() == R.id.deleteFromFavoriteActivityFavoriteDetail) {
 
-            if(getIntent().getStringExtra(EXTRA_TYPE).equals("movie")){
+            try {
 
                 uriWithId = Uri.parse(CONTENT_URI + "/" + movie.getId());
                 Intent toFavoriteActivity = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
                 startActivity(toFavoriteActivity);
                 Toast.makeText(FavoriteDetailActivity.this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
                 getContentResolver().delete(uriWithId, null, null);
+
+//                long result = movieHelper.deleteById(String.valueOf(movie.getId()));
+//                if (result > 0) {
+//                    Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+//                    intent.putExtra(EXTRA_POSITION, position);
+//                    setResult(RESULT_DELETE, intent);
+//                    Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+//                    state = getString(R.string.deleted_from_favorite);
+//                    startActivity(intent);
+//                    finish();
+//                } else {
+//                    state = getString(R.string.failed_to_delete_data);
+//                }
             }
-            else {
+            catch (Exception error){
 
                 uriWithIDTV = Uri.parse(CONTENT_URI_TV + "/" + movie.getId());
                 Intent toFavoriteActivity = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
@@ -85,6 +99,25 @@ public class FavoriteDetailActivity extends AppCompatActivity implements View.On
                 Toast.makeText(FavoriteDetailActivity.this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
                 getContentResolver().delete(uriWithIDTV, null, null);
             }
+
+//            if (state.equals(getString(R.string.failed_to_delete_data))){
+//
+//                try {
+//
+//                    long result = movieHelperTV.deleteById(String.valueOf(movie.getId()));
+//                    if (result > 0) {
+//                        Intent intent = new Intent(FavoriteDetailActivity.this, FavoriteActivity.class);
+//                        intent.putExtra(EXTRA_POSITION, position);
+//                        setResult(RESULT_DELETE, intent);
+//                        Toast.makeText(this, getString(R.string.deleted_from_favorite), Toast.LENGTH_SHORT).show();
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//                catch (Exception error){
+//
+//                }
+//            }
         }
     }
 }
