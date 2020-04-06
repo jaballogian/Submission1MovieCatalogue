@@ -102,7 +102,7 @@ public class DetailActivity extends AppCompatActivity {
 
                         WeakReference<DetailActivity> weakContext = new WeakReference<>(DetailActivity.this);
 //                    Context context = weakContext.get();
-                        Cursor dataCursor = getContentResolver().query(DatabaseContract.MovieColumns.CONTENT_URI, null, null, null, null);
+                        Cursor dataCursor = getContentResolver().query(CONTENT_URI, null, null, null, null);
                         ArrayList<Movie> movies = MappingHelper.mapCursorToArrayList(dataCursor);
 //                    Cursor cursor = movieHelper.queryAll();
 //                    ArrayList<String> titles = MappingHelper.mapCursorToString(cursor);
@@ -125,20 +125,9 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
-                        startActivity(toFavoriteActivity);
+                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
+                        startActivity(toMainActivity);
                         finish();
-//                        long result = movieHelper.insert(values);
-//
-//                        if (result > 0) {
-////                            movie.setId((int) result);
-//                            movie.setId(movie.getId());
-//                            setResult(RESULT_ADD, intent);
-//                            Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-//                            finish();
-//                        } else {
-//                            Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
-//                        }
                     }
                     else {
 
@@ -186,20 +175,9 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI_TV, values);
                         Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-                        Intent toFavoriteActivity = new Intent(DetailActivity.this, FavoriteActivity.class);
-                        startActivity(toFavoriteActivity);
+                        Intent toMainActivity = new Intent(DetailActivity.this, MainActivity.class);
+                        startActivity(toMainActivity);
                         finish();
-//                        long result = movieHelperTV.insert(values);
-//
-//                        if (result > 0) {
-////                            movie.setId((int) result);
-//                            movie.setId(movie.getId());
-//                            setResult(RESULT_ADD, intent);
-//                            Toast.makeText(DetailActivity.this, getString(R.string.added_to_favorite), Toast.LENGTH_LONG).show();
-//                            finish();
-//                        } else {
-//                            Toast.makeText(DetailActivity.this, getString(R.string.failed_to_add_data), Toast.LENGTH_SHORT).show();
-//                        }
                     }
                     else {
 

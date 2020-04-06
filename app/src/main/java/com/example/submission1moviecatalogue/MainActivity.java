@@ -1,27 +1,18 @@
 package com.example.submission1moviecatalogue;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import android.widget.Toast;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,27 +36,27 @@ public class MainActivity extends AppCompatActivity {
 
         movieAdapter = new MovieAdapter(this);
 
-        alarmReceiver = new AlarmReceiver();
+//        alarmReceiver = new AlarmReceiver();
 
-        session = new Session(this);
-
-        if(session.getDailyReminderSetting() == true){
-            setDailyReminder();
-        }
-        else if(session.getDailyReminderSetting() == false){
-            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
-        }
-
-        Log.d("dailyReminder", String.valueOf(session.getDailyReminderSetting()));
-
-        if(session.getReleaseTodaySetting() == true){
-            setReleaseToday();
-        }
-        else if(session.getReleaseTodaySetting() == false){
-            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_RELEASE_TODAY);
-        }
-
-        Log.d("releaseToday", String.valueOf(session.getReleaseTodaySetting()));
+//        session = new Session(this);
+//
+//        if(session.getDailyReminderSetting() == true){
+//            setDailyReminder();
+//        }
+//        else if(session.getDailyReminderSetting() == false){
+//            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
+//        }
+//
+//        Log.d("dailyReminder", String.valueOf(session.getDailyReminderSetting()));
+//
+//        if(session.getReleaseTodaySetting() == true){
+//            setReleaseToday();
+//        }
+//        else if(session.getReleaseTodaySetting() == false){
+//            alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_RELEASE_TODAY);
+//        }
+//
+//        Log.d("releaseToday", String.valueOf(session.getReleaseTodaySetting()));
 
     }
 

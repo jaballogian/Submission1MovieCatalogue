@@ -2,37 +2,19 @@ package com.example.submission1moviecatalogue;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_MOVIE;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.EXTRA_POSITION;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_ADD;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.REQUEST_UPDATE;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_ADD;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_DELETE;
-import static com.example.submission1moviecatalogue.FavoriteDetailActivity.RESULT_UPDATE;
 
 
 /**
@@ -59,26 +41,34 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         favoriteAdapter = new FavoriteAdapter(getActivity());
+        favoriteAdapter.setType("movie");
         recyclerView.setAdapter(favoriteAdapter);
 
         movieHelper = movieHelper.getInstance(getContext());
         movieHelper.open();
 
-        HandlerThread handlerThread = new HandlerThread("DataObserver");
-        handlerThread.start();
-        Handler handler = new Handler(handlerThread.getLooper());
-        DataObserver myObserver = new DataObserver(handler, getContext());
-        getContext().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.CONTENT_URI, true, myObserver);
+//        HandlerThread handlerThread = new HandlerThread("DataObserver");
+//        handlerThread.start();
+//        Handler handler = new Handler(handlerThread.getLooper());
+//        DataObserver myObserver = new DataObserver(handler, this);
+//        getContext().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.CONTENT_URI, true, myObserver);
 
-        if (savedInstanceState == null) {
-            // proses ambil data
-            new LoadNotesAsync(getContext(), this).execute();
-        } else {
-            ArrayList<Movie> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
-            if (list != null) {
-                favoriteAdapter.setListFavorite(list);
-            }
-        }
+        WeakReference<Context> weakContext = new WeakReference<>(getContext());
+        Context context = weakContext.get();
+        Cursor dataCursor = context.getContentResolver().query(DatabaseContract.MovieColumns.CONTENT_URI, null, null, null, null);
+        ArrayList<Movie> movies = MappingHelperTV.mapCursorToArrayListTV(dataCursor);
+        favoriteAdapter.setListFavorite(movies);
+
+//        if (savedInstanceState == null) {
+//            // proses ambil data
+//            new LoadNotesAsync(getContext(), this).execute();
+//
+//        } else {
+//            ArrayList<Movie> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
+//            if (list != null) {
+//                favoriteAdapter.setListFavorite(list);
+//            }
+//        }
 
         return view;
     }
@@ -91,12 +81,12 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 
     @Override
     public void preExecute() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
     }
     @Override
     public void postExecute(ArrayList<Movie> movies) {
@@ -166,18 +156,18 @@ public class FavoriteMoviesFragment extends Fragment implements LoadMoviesCallba
 //        }
 //    }
 
-    public static class DataObserver extends ContentObserver {
-        final Context context;
-        public DataObserver(Handler handler, Context context) {
-            super(handler);
-            this.context = context;
-        }
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            new LoadNotesAsync(context, (LoadMoviesCallback) context).execute();
-        }
-    }
+//    public static class DataObserver extends ContentObserver {
+//        final FavoriteMoviesFragment favoriteMoviesFragment;
+//        public DataObserver(Handler handler, FavoriteMoviesFragment context) {
+//            super(handler);
+//            this.favoriteMoviesFragment = context;
+//        }
+//        @Override
+//        public void onChange(boolean selfChange) {
+//            super.onChange(selfChange);
+//            new LoadNotesAsync(favoriteMoviesFragment.getContext(), (LoadMoviesCallback) favoriteMoviesFragment).execute();
+//        }
+//    }
 
 }
 

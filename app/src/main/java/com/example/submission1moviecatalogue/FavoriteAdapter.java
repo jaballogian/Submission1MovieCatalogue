@@ -37,6 +37,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         notifyDataSetChanged();
     }
 
+    public String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @NonNull
     @Override
     public FavoriteViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -61,6 +71,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                 Intent intent = new Intent(activity, FavoriteDetailActivity.class);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_POSITION, position);
                 intent.putExtra(FavoriteDetailActivity.EXTRA_MOVIE, listFavorite.get(position));
+                intent.putExtra(FavoriteDetailActivity.EXTRA_TYPE, type);
                 activity.startActivityForResult(intent, FavoriteDetailActivity.REQUEST_UPDATE);
             }
         }));
