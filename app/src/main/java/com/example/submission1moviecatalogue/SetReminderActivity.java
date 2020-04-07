@@ -25,13 +25,13 @@ public class SetReminderActivity extends AppCompatActivity {
 
         alarmReceiver = new AlarmReceiver();
 
-//        session = new Session(this);
-//
-//        dailyReminder = session.getDailyReminderSetting();
-//        releaseToday = session.getReleaseTodaySetting();
-//
-//        setDailyReminderSwitch.setChecked(dailyReminder);
-//        setReleaseTodayReminderSwitch.setChecked(releaseToday);
+        session = new Session(this);
+
+        dailyReminder = session.getDailyReminderSetting();
+        releaseToday = session.getReleaseTodaySetting();
+
+        setDailyReminderSwitch.setChecked(dailyReminder);
+        setReleaseTodayReminderSwitch.setChecked(releaseToday);
 
         setDailyReminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
            @Override
@@ -45,8 +45,7 @@ public class SetReminderActivity extends AppCompatActivity {
                else {
                    alarmReceiver.cancelAlarm(SetReminderActivity.this, AlarmReceiver.TYPE_REPEATING);
                }
-//               session.setDailyReminderSetting(isChecked);
-//               Log.d("setDailyReminder", String.valueOf(isChecked));
+               session.setDailyReminderSetting(isChecked);
            }
         });
 
@@ -62,8 +61,7 @@ public class SetReminderActivity extends AppCompatActivity {
                 else {
                     alarmReceiver.cancelAlarm(SetReminderActivity.this, AlarmReceiver.TYPE_RELEASE_TODAY);
                 }
-//                session.setReleaseTodaySetting(isChecked);
-//                Log.d("setReleaseToday", String.valueOf(isChecked));
+                session.setReleaseTodaySetting(isChecked);
             }
         });
     }
